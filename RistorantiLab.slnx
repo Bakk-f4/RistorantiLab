@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="CoreFramework/CoreFramework.csproj" />
+  <Project Path="DataDB/DataDB.csproj" />
+  <Project Path="Engine/Engine.csproj" />
+  <Project Path="Entity/Entity.csproj" />
+  <Project Path="IDal/IDal.csproj" />
+  <Project Path="Manager/Manager.csproj" />
+  <Project Path="UI/UI.csproj" />
+</Solution>
