@@ -1,9 +1,9 @@
 <Solution>
-  <Project Path="CoreFramework/CoreFramework.csproj" />
-  <Project Path="DataDB/DataDB.csproj" />
-  <Project Path="Engine/Engine.csproj" />
-  <Project Path="Entity/Entity.csproj" />
-  <Project Path="IDal/IDal.csproj" />
-  <Project Path="Manager/Manager.csproj" />
-  <Project Path="UI/UI.csproj" />
+  <Project Path="CoreFramework/CoreFramework.csproj" Id="6ca3c35a-c775-4120-a649-c7b84d39203a" />
+  <Project Path="DataDB/DataDB.csproj" Id="028aab7a-ff43-4b3e-a632-0ed029f2620b" />
+  <Project Path="Engine/Engine.csproj" Id="ee9dcb7d-f778-4b37-8980-68541e442eac" />
+  <Project Path="Entity/Entity.csproj" Id="557fa867-54a9-4de5-87a4-4d0c063182c3" />
+  <Project Path="IDal/IDal.csproj" Id="01d237bb-c673-47de-a5f0-96721a6c2b30" />
+  <Project Path="Manager/Manager.csproj" Id="f6c0a65c-4bce-4515-9570-754c584d1ca4" />
+  <Project Path="UI/UI.csproj" Id="549c693e-24ae-48c8-8d71-1c83929ebaa0" />
 </Solution>

@@ -58,8 +58,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RistoranteEngine.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoreFramework\CoreFramework.csproj">
+      <Project>{6ca3c35a-c775-4120-a649-c7b84d39203a}</Project>
+      <Name>CoreFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{557fa867-54a9-4de5-87a4-4d0c063182c3}</Project>
       <Name>Entity</Name>
