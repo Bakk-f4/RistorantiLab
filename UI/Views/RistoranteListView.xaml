@@ -16,15 +16,43 @@
     <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <!-- header con bottoni -->
             <RowDefinition Height="Auto"/>
+            <!-- messaggio errore -->
+            <RowDefinition Height="Auto"/>
+            <!-- messaggio successo -->
             <RowDefinition Height="*"/>
+            <!-- tabella -->
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0"
-                   Text="Ristoranti"
-                   FontSize="20" FontWeight="SemiBold"
-                   Margin="0,0,0,16"/>
+        <!-- Header: titolo + bottoni -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
+            <TextBlock Grid.Column="0"
+                       Text="Ristoranti"
+                       FontSize="20" FontWeight="SemiBold"
+                       VerticalAlignment="Center"/>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Content="Nuovo"
+                        Command="{Binding NuovoCommand}"
+                        Padding="12,6" Margin="0,0,8,0"
+                        Background="#534AB7" Foreground="White"
+                        BorderThickness="0"/>
+                <Button Content="Modifica"
+                        Command="{Binding ModificaCommand}"
+                        Padding="12,6" Margin="0,0,8,0"/>
+                <Button Content="Elimina"
+                        Command="{Binding EliminaCommand}"
+                        Padding="12,6"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Pannello errore -->
         <Border Grid.Row="1"
                 Background="#FFEBE8" BorderBrush="#E24B4A"
                 BorderThickness="1" CornerRadius="4"
@@ -35,7 +63,19 @@
                        Foreground="#A32D2D" FontSize="13"/>
         </Border>
 
-        <DataGrid Grid.Row="2"
+        <!-- Pannello successo -->
+        <Border Grid.Row="2"
+                Background="#E8F5E9" BorderBrush="#4CAF50"
+                BorderThickness="1" CornerRadius="4"
+                Padding="12,8" Margin="0,0,0,12"
+                Visibility="{Binding MessaggioSuccesso, 
+                             Converter={StaticResource NullToVisibilityConverter}}">
+            <TextBlock Text="{Binding MessaggioSuccesso}"
+                       Foreground="#2E7D32" FontSize="13"/>
+        </Border>
+
+        <!-- DataGrid -->
+        <DataGrid Grid.Row="3"
                   ItemsSource="{Binding ListaRistoranti}"
                   SelectedItem="{Binding RistoranteSelezionato}"
                   AutoGenerateColumns="False"

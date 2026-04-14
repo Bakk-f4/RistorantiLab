@@ -3,9 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:UI.Views"
-        mc:Ignorable="d" Height="600" Width="900">
+        xmlns:views="clr-namespace:UI.Views"
+        xmlns:vm="clr-namespace:UI.ViewModels"
+        mc:Ignorable="d" Height="600" Width="900"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <!-- Mappa ogni ViewModel alla sua View -->
+        <DataTemplate DataType="{x:Type vm:RistoranteListViewModel}">
+            <views:RistoranteListView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RistoranteDetailViewModel}">
+            <views:RistoranteDetailView/>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
-        <local:RistoranteListView/>
+        <ContentControl Content="{Binding CurrentView}"/>
     </Grid>
 </Window>

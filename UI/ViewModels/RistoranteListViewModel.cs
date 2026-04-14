@@ -14,7 +14,12 @@ namespace UI.ViewModels
     {
         private readonly RistoranteManager _manager;
 
-        // ─── proprietà in binding ────────────────────────────────────────
+        //eventi di navigazione 
+        public event EventHandler RichiestaNuovo;
+        public event EventHandler<Ristorante> RichiestaModifica;
+
+
+        //proprietà in binding
 
         private List<Ristorante> _listaRistoranti;
         public List<Ristorante> ListaRistoranti
@@ -49,22 +54,38 @@ namespace UI.ViewModels
             }
         }
 
-        // ─── comandi ─────────────────────────────────────────────────────
-        public ICommand CaricaCommand { get; }
+        private string _messaggioSuccesso;
+        public string MessaggioSuccesso
+        {
+            get => _messaggioSuccesso;
+            set { _messaggioSuccesso = value; OnPropertyChanged(); }
+        }
 
-        // ─── costruttore ─────────────────────────────────────────────────
+        //comandi
+        public ICommand CaricaCommand { get; }
+        public ICommand NuovoCommand { get; }
+        public ICommand ModificaCommand { get; }
+        public ICommand EliminaCommand { get; }
+
+
         public RistoranteListViewModel(RistoranteManager manager)
         {
             _manager = manager
                 ?? throw new ArgumentNullException(nameof(manager));
 
             CaricaCommand = new RelayCommand(EseguiCarica);
+            NuovoCommand = new RelayCommand(EseguiNuovo);
+            ModificaCommand = new RelayCommand(
+                execute: EseguiModifica,
+                canExecute: () => RistoranteSelezionato != null);
+            EliminaCommand = new RelayCommand(
+                execute: EseguiElimina,
+                canExecute: () => RistoranteSelezionato != null);
 
-            // Carica i dati subito all'apertura della schermata
             EseguiCarica();
         }
 
-        // ─── logica dei comandi ──────────────────────────────────────────
+        //logica dei comandi
         private void EseguiCarica()
         {
             try
@@ -76,6 +97,29 @@ namespace UI.ViewModels
             {
                 MessaggioErrore = ex.Message;
                 ListaRistoranti = new List<Ristorante>();
+            }
+        }
+        private void EseguiNuovo()
+            => RichiestaNuovo?.Invoke(this, EventArgs.Empty);
+
+        private void EseguiModifica()
+            => RichiestaModifica?.Invoke(this, RistoranteSelezionato);
+
+        private void EseguiElimina()
+        {
+            try
+            {
+                MessaggioErrore = null;
+                MessaggioSuccesso = null;
+                _manager.Elimina(RistoranteSelezionato.IDRistorante);
+                MessaggioSuccesso = $"Ristorante '" +
+                    $"{RistoranteSelezionato.RagioneSociale}" +
+                    $"' eliminato con successo.";
+                EseguiCarica();
+            }
+            catch (Exception ex)
+            {
+                MessaggioErrore = ex.Message;
             }
         }
     }

@@ -57,7 +57,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\NullToVisibilityConverter.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\RistoranteDetailViewModel.cs" />
     <Compile Include="ViewModels\RistoranteListViewModel.cs" />
+    <Compile Include="Views\RistoranteDetailView.xaml.cs">
+      <DependentUpon>RistoranteDetailView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RistoranteListView.xaml.cs">
       <DependentUpon>RistoranteListView.xaml</DependentUpon>
     </Compile>
@@ -75,6 +80,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\RistoranteDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\RistoranteListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
