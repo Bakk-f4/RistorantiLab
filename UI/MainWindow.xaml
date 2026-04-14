@@ -10,11 +10,20 @@
 
     <Window.Resources>
         <!-- Mappa ogni ViewModel alla sua View -->
+        <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+            <views:LoginView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:RistoranteListViewModel}">
             <views:RistoranteListView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:RistoranteDetailViewModel}">
             <views:RistoranteDetailView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:UtenteListViewModel}">
+            <views:UtenteListView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:UtenteDetailViewModel}">
+            <views:UtenteDetailView/>
         </DataTemplate>
     </Window.Resources>
     <Grid>

@@ -26,15 +26,22 @@ namespace UI
                 .ConnectionStrings["RistorantiLab"]
                 .ConnectionString;
 
-            //costruisci la catena dal basso verso l'alto
+            //ristorante
             var ristoranteDAL = new RistoranteDAL(connString);
             var ristoranteEngine = new RistoranteEngine(ristoranteDAL);
             var ristoranteManager = new RistoranteManager(ristoranteEngine);
 
-            //crea il ViewModel con il Manager iniettato
-            var mainViewModel = new MainViewModel(ristoranteManager);
+            //utente
+            var utenteDAL = new UtenteDAL(connString);
+            var utenteEngine = new UtenteEngine(utenteDAL);
+            var utenteManager = new UtenteManager(utenteEngine);
 
-            //crea la finestra, assegna il DataContext e mostrala
+
+            //crea il ViewModel con il Manager iniettato
+            var mainViewModel = new MainViewModel(ristoranteManager, utenteManager);
+
+
+            //crea la finestra, assegna il DataContext e la mostra
             var mainWindow = new MainWindow();
             mainWindow.DataContext = mainViewModel;
             mainWindow.Show();
