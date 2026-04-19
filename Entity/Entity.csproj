@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Prenotazione.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ristorante.cs" />
+    <Compile Include="StatisticaGiornaliera.cs" />
     <Compile Include="Utente.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

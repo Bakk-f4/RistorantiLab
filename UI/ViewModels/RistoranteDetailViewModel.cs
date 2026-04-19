@@ -16,112 +16,157 @@ namespace UI.ViewModels
         private readonly RistoranteManager _manager;
         private readonly bool _isNuovo;
 
-
-        //evento di navigazione
+        //Eventi per navigazione
         public event EventHandler RichiestaTornaLista;
 
 
-        //proprieta oggetto in binding
+        //Proprieta' in Bindings
         private Ristorante _ristorante;
         public Ristorante Ristorante
         {
             get => _ristorante;
-            set { _ristorante = value; OnPropertyChanged(); }
+            set
+            {
+                _ristorante = value;
+                OnPropertyChanged();
+            }
         }
 
-
-        //proprieta singole dell' oggetto. binding bidirezionale
+        //Proprieta' in Bindings bidirezionali per editare i campi
         private string _ragioneSociale;
         public string RagioneSociale
         {
             get => _ragioneSociale;
-            set { _ragioneSociale = value; OnPropertyChanged(); }
+            set
+            {
+                _ragioneSociale = value;
+                OnPropertyChanged();
+            }
         }
 
         private string _partitaIVA;
         public string PartitaIVA
         {
             get => _partitaIVA;
-            set { _partitaIVA = value; OnPropertyChanged(); }
+            set
+            {
+                _partitaIVA = value;
+                OnPropertyChanged();
+            }
         }
 
         private string _indirizzo;
         public string Indirizzo
         {
             get => _indirizzo;
-            set { _indirizzo = value; OnPropertyChanged(); }
+            set
+            {
+                _indirizzo = value;
+                OnPropertyChanged();
+            }
         }
 
         private string _citta;
         public string Citta
         {
             get => _citta;
-            set { _citta = value; OnPropertyChanged(); }
+            set
+            {
+                _citta = value;
+                OnPropertyChanged();
+            }
         }
 
         private string _telefono;
         public string Telefono
         {
             get => _telefono;
-            set { _telefono = value; OnPropertyChanged(); }
+            set
+            {
+                _telefono = value;
+                OnPropertyChanged();
+            }
         }
 
         private TipologiaRistorante _tipologia;
         public TipologiaRistorante Tipologia
         {
             get => _tipologia;
-            set { _tipologia = value; OnPropertyChanged(); }
+            set
+            {
+                _tipologia = value;
+                OnPropertyChanged();
+            }
         }
 
         private int _numPosti;
         public int NumPosti
         {
             get => _numPosti;
-            set { _numPosti = value; OnPropertyChanged(); }
+            set
+            {
+                _numPosti = value;
+                OnPropertyChanged();
+            }
         }
 
         private decimal _prezzoMedio;
         public decimal PrezzoMedio
         {
             get => _prezzoMedio;
-            set { _prezzoMedio = value; OnPropertyChanged(); }
+            set
+            {
+                _prezzoMedio = value;
+                OnPropertyChanged();
+            }
         }
 
         private string _messaggioErrore;
         public string MessaggioErrore
         {
             get => _messaggioErrore;
-            set { _messaggioErrore = value; OnPropertyChanged(); }
+            set
+            {
+                _messaggioErrore = value;
+                OnPropertyChanged();
+            }
         }
 
-        //titolo dinamico
+
+
+        //Titolo dinamico
         public string Titolo => _isNuovo
-            ? "Nuovo ristorante"
-            : $"Modifica — {RagioneSociale}";
-
-        //lista tipologie per combobox
-        public Array TipologieDisponibili
-            => Enum.GetValues(typeof(TipologiaRistorante));
+            ? "Nuovo Ristorante"
+            : $"Modifica - {RagioneSociale}";
 
 
-        //comandi
+        //Lista tipologie per ComboBox
+        public Array TipologieDisponibili => Enum.GetValues(typeof(TipologiaRistorante));
+
+
+
+
+        //Comandi
         public ICommand SalvaCommand { get; }
         public ICommand AnnullaCommand { get; }
 
 
+
+
+
+        //Costruttore
         public RistoranteDetailViewModel(
             RistoranteManager manager,
             Ristorante ristorante)
         {
-            _manager = manager
-                ?? throw new ArgumentNullException(nameof(manager));
-
+            _manager = manager ?? throw new ArgumentNullException(nameof(manager));
             _isNuovo = ristorante == null;
 
             //Se e' nuovo inizializza con valori di default,
             //altrimenti popola i campi con i dati esistenti
             if (_isNuovo)
             {
+                //tipologia di default = pizzeria
                 RagioneSociale = string.Empty;
                 Tipologia = TipologiaRistorante.Pizzeria;
                 NumPosti = 0;
@@ -144,17 +189,20 @@ namespace UI.ViewModels
 
             SalvaCommand = new RelayCommand(EseguiSalva);
             AnnullaCommand = new RelayCommand(EseguiAnnulla);
+
         }
 
 
-        //metodi per i comandi
+
+
+        //Logica comandi
         private void EseguiSalva()
         {
             try
             {
                 MessaggioErrore = null;
 
-                //ricostruisce l'oggetto dai campi del form
+                //Ricostruisce l'oggetto dai campi del form
                 var r = new Ristorante
                 {
                     IDRistorante = _isNuovo ? 0 : Ristorante.IDRistorante,
@@ -169,8 +217,8 @@ namespace UI.ViewModels
                 };
 
                 _manager.Salva(r);
-               
-                //torna alla lista dopo il salvataggio
+
+                // Torna alla lista dopo il salvataggio
                 RichiestaTornaLista?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception ex)
@@ -181,8 +229,6 @@ namespace UI.ViewModels
 
         private void EseguiAnnulla()
             => RichiestaTornaLista?.Invoke(this, EventArgs.Empty);
-
-
 
     }
 }

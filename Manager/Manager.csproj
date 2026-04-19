@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PrenotazioneManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RistoranteManager.cs" />
+    <Compile Include="StatisticheManager.cs" />
     <Compile Include="UtenteManager.cs" />
   </ItemGroup>
   <ItemGroup>

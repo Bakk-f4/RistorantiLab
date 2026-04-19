@@ -14,8 +14,10 @@ namespace IDal
         List<Ristorante> GetByCitta(string citta);
         List<Ristorante> GetByTipologia(TipologiaRistorante tipologia);
         List<Ristorante> GetByPrezzo(decimal prezzoMax);
+        List<Ristorante> Cerca(string citta, TipologiaRistorante? tipologia, decimal? prezzoMax);
         void Insert(Ristorante ristorante);
         void Update(Ristorante ristorante);
         void Delete(int id);
+
     }
 }

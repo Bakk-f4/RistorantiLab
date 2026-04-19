@@ -15,11 +15,15 @@ namespace UI.ViewModels
 
         private readonly UtenteManager _manager;
 
-        //eventi di navigazione
+
+        //Eventi per navigazione
         public event EventHandler RichiestaNuovo;
         public event EventHandler<Utente> RichiestaModifica;
 
-        //proprieta' in binding
+
+
+
+        //Proprieta' in Bindings
         private List<Utente> _listaUtenti;
         public List<Utente> ListaUtenti
         {
@@ -50,7 +54,9 @@ namespace UI.ViewModels
 
 
 
-        //comandi
+
+
+        //Comandi
         public ICommand CaricaCommand { get; }
         public ICommand NuovoCommand { get; }
         public ICommand ModificaCommand { get; }
@@ -58,6 +64,7 @@ namespace UI.ViewModels
 
 
 
+        //Costruttore
         public UtenteListViewModel(UtenteManager manager)
         {
             _manager = manager
@@ -76,8 +83,10 @@ namespace UI.ViewModels
         }
 
 
-        //metodi di esecuzione comandi
 
+
+
+        //Logica Comandi
         private void EseguiCarica()
         {
             try
@@ -105,9 +114,9 @@ namespace UI.ViewModels
             {
                 MessaggioErrore = null;
                 MessaggioSuccesso = null;
-                _manager.Elimina(UtenteSelezionato.UserName);
+                _manager.Elimina(UtenteSelezionato.Username);
                 MessaggioSuccesso = $"Utente '" +
-                    $"{UtenteSelezionato.UserName}'" +
+                    $"{UtenteSelezionato.Username}'" +
                     $" eliminato con successo.";
                 EseguiCarica();
             }
@@ -116,8 +125,6 @@ namespace UI.ViewModels
                 MessaggioErrore = ex.Message;
             }
         }
-
-
 
 
 

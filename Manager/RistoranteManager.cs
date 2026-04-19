@@ -22,24 +22,28 @@ namespace Manager
             return _engine.GetAll();
         }
 
+        /// <summary>
+        /// Restituisce una lista di ristoranti filtrata in base ai parametri specificati. 
+        /// Se un parametro è null o vuoto, non viene applicato come filtro.
+        /// </summary>
+        /// <param name="citta"></param>
+        /// <param name="tipologia"></param>
+        /// <param name="prezzoMax"></param>
+        /// <returns></returns>
         public List<Ristorante> Cerca(
             string citta,
             TipologiaRistorante? tipologia,
             decimal? prezzoMax)
         {
-            //Se sono stati specificati filtri, li applica in sequenza
-            if (!string.IsNullOrWhiteSpace(citta))
-                return _engine.GetByCitta(citta);
-
-            if (tipologia.HasValue)
-                return _engine.GetByTipologia(tipologia.Value);
-
-            if (prezzoMax.HasValue && prezzoMax.Value > 0)
-                return _engine.GetByPrezzo(prezzoMax.Value);
-
-            return _engine.GetAll();
+            return _engine.Cerca(citta, tipologia, prezzoMax);
         }
 
+        /// <summary>
+        /// Salva un ristorante. 
+        /// Se l'ID è 0, viene inserito come nuovo record; 
+        /// altrimenti, viene aggiornato il record esistente. 
+        /// </summary>
+        /// <param name="ristorante"></param>
         public void Salva(Ristorante ristorante)
         {
             if (ristorante.IDRistorante == 0)
@@ -48,9 +52,19 @@ namespace Manager
                 _engine.Update(ristorante);
         }
 
+        /// <summary>
+        /// Elimina un ristorante in base all'ID.
+        /// </summary>
+        /// <param name="id"></param>
         public void Elimina(int id)
         {
             _engine.Delete(id);
         }
+
+
+
+
+
+
     }
 }

@@ -18,23 +18,30 @@ namespace Manager
                 ?? throw new ArgumentNullException(nameof(engine));
         }
 
-        public List<Utente> GetAll()
-            => _engine.GetAll();
+        public List<Entity.Utente> GetAll()
+        {
+            return _engine.GetAll();
+        }
 
-        //login restituisce l'utente se le credenziali sono corrette
-        public Utente Login(string userName, string password)
-            => _engine.VerificaCredenziali(userName, password);
+        public Utente Login(string username, string password)
+        {
+            return _engine.VerificaCredenziali(username, password);
+        }
 
-        //salva gestisce sia Insert che Update in base allo stato dell'utente
         public void Salva(Utente utente, string passwordChiaro, bool isNuovo)
         {
             if (isNuovo)
                 _engine.Insert(utente, passwordChiaro);
             else
                 _engine.Update(utente, passwordChiaro);
+
         }
 
-        public void Elimina(string userName)
-            => _engine.Delete(userName);
+        public void Elimina(string username)
+        {
+            _engine.Delete(username);
+        }
+
+
     }
 }

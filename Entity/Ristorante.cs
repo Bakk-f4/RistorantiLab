@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entity
 {
+
     public enum TipologiaRistorante
     {
         Pizzeria = 1,

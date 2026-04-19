@@ -7,44 +7,44 @@ using System.Windows.Input;
 
 namespace UI.Helpers
 {
-    /// <summary>
-    /// Implements the ICommand interface by delegating command logic to specified delegates.
-    /// Allows UI actions to be associated with view model methods in MVVM architectures.
-    /// </summary>
-    /// <remarks>RelayCommand is commonly used in MVVM applications 
-    /// to encapsulate command logic and enable or disable UI elements
-    /// based on the application state.
-    /// The ability to execute a command is determined by the provided canExecute delegate, if any.
-    /// The CanExecuteChanged event is automatically raised when the command handler 
-    /// detects conditions that might change the ability to execute the command.</remarks>
     public class RelayCommand : ICommand
     {
         private readonly Action _execute;
         private readonly Func<bool> _canExecute;
 
+        /// <summary>
+        /// metodo utilizzato per invocare un azione nella UI
+        /// pattern C# moderno per validare gli argomenti obbligatori
+        /// </summary>
+        /// <param name="execute"></param>
+        /// <param name="canExecute"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public RelayCommand(Action execute, Func<bool> canExecute = null)
         {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _execute = execute
+                          ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
         }
+
         /// <summary>
-        /// WPF calls this method to determine whether the button should be enabled or disabled.
+        /// WPF chiama questo metodo per sapere se il bottone deve essere abilitato o disabilitato.
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public bool CanExecute(object parameter) => _canExecute?.Invoke() ?? true;
+        public bool CanExecute(object parameter)
+            => _canExecute?.Invoke() ?? true;
 
         /// <summary>
-        /// WPF calls this method when the user clicks the button.
-        /// It simply executes the _execute function passed to it in the constructor.
+        /// WPF chiama questo metodo quando l'utente clicca il bottone. 
+        /// Esegue semplicemente la funzione _execute che gli è stata passata nel costruttore. 
         /// </summary>
         /// <param name="parameter"></param>
-        public void Execute(object parameter) => _execute();
-
+        public void Execute(object parameter)
+            => _execute();
 
         /// <summary>
-        /// CanExecuteChanged is the event WPF listens for to know when to reevaluate CanExecute and 
-        /// update the button's enabled/disabled state.
+        /// CanExecuteChanged è l'evento che WPF ascolta per sapere 
+        /// quando rivalutare CanExecute e aggiornare lo stato abilitato/disabilitato del bottone.
         /// </summary>
         public event EventHandler CanExecuteChanged
         {

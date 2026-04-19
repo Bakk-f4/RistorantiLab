@@ -9,26 +9,23 @@ using System.Threading.Tasks;
 namespace UI.Helpers
 {
     /// <summary>
-    /// ViewModelBase class that implements INotifyPropertyChanged to facilitate notification of property changes in ViewModels.
-    /// It is an abstract class that can be inherited by any ViewModel.
+    /// Classe astratta per l' implementazione di INotifyPropertyChanged
+    /// Questa classe verra' ereditata dagli altri view models per utilizzare INotifyPropertyChanged
+    /// aggiornando i dati nella UI
     /// </summary>
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
-
-        /// <summary>
-        /// An event that is raised when a property changes.
-        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-
         /// <summary>
-        /// Method used to raise the PropertyChanged event when a property changes.
-        /// Uses the CallerMemberName to automatically get the name of the property that called the method.
+        /// Metodo che serve per notifiare tutti gli "ascoltatori"
+        /// CallerMemberName imposta in automatico il nome del controllo da aggiornare
         /// </summary>
         /// <param name="propertyName"></param>
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }   
+        }
+
     }
 }

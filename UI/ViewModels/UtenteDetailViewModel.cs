@@ -12,17 +12,24 @@ namespace UI.ViewModels
 {
     public class UtenteDetailViewModel : ViewModelBase
     {
-
         private readonly UtenteManager _manager;
         private readonly bool _isNuovo;
 
 
-        //evento di navigazione
+        //Eventi per navigazione
         public event EventHandler RichiestaTornaLista;
 
 
 
-        //proprieta' in binding
+
+        //proprieta' in Bindings
+        private string _userName;
+        public string Username
+        {
+            get => _userName;
+            set { _userName = value; OnPropertyChanged(); }
+        }
+
         private string _passwordChiaro;
         public string PasswordChiaro
         {
@@ -31,7 +38,7 @@ namespace UI.ViewModels
         }
 
         private bool _isAdministrator;
-        public bool IsAdministrator
+        public bool isAdministrator
         {
             get => _isAdministrator;
             set { _isAdministrator = value; OnPropertyChanged(); }
@@ -72,22 +79,17 @@ namespace UI.ViewModels
             set { _messaggioErrore = value; OnPropertyChanged(); }
         }
 
-        private string _userName;
-        public string UserName
-        {
-            get => _userName;
-            set { _userName = value; OnPropertyChanged(); }
-        }
-
         public bool UserNameAbilitato => _isNuovo;
 
         public string Titolo => _isNuovo
             ? "Nuovo utente"
-            : $"Modifica — {UserName}";
+            : $"Modifica — {Username}";
 
         public string LabelPassword => _isNuovo
             ? "Password *"
             : "Nuova password (lascia vuoto per non modificare)";
+
+
 
 
         //comandi
@@ -95,7 +97,7 @@ namespace UI.ViewModels
         public ICommand AnnullaCommand { get; }
 
 
-
+        //costruttore
         public UtenteDetailViewModel(UtenteManager manager, Utente utente)
         {
             _manager = manager
@@ -105,8 +107,8 @@ namespace UI.ViewModels
 
             if (!_isNuovo)
             {
-                UserName = utente.UserName;
-                IsAdministrator = utente.IsAdministrator;
+                Username = utente.Username;
+                isAdministrator = utente.isAdministrator;
                 Descrizione = utente.Descrizione;
                 Telefono = utente.Telefono;
                 Email = utente.Email;
@@ -119,7 +121,10 @@ namespace UI.ViewModels
 
 
 
-        //logica dei comandi
+
+
+
+        //logica comandi
         private void EseguiSalva()
         {
             try
@@ -128,8 +133,8 @@ namespace UI.ViewModels
 
                 var u = new Utente
                 {
-                    UserName = UserName,
-                    IsAdministrator = IsAdministrator,
+                    Username = Username,
+                    isAdministrator = isAdministrator,
                     Descrizione = Descrizione,
                     Telefono = Telefono,
                     Email = Email,
@@ -147,6 +152,15 @@ namespace UI.ViewModels
 
         private void EseguiAnnulla()
             => RichiestaTornaLista?.Invoke(this, EventArgs.Empty);
+
+
+
+
+
+
+
+
+
 
 
     }

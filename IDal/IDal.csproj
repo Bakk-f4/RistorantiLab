@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPrenotazioneDAL.cs" />
     <Compile Include="IRistoranteDAL.cs" />
     <Compile Include="IUtenteDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -57,8 +57,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PrenotazioneEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RistoranteEngine.cs" />
+    <Compile Include="StatisticheEngine.cs" />
     <Compile Include="UtenteEngine.cs" />
   </ItemGroup>
   <ItemGroup>

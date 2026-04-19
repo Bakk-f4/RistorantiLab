@@ -35,6 +35,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="dotenv.net, Version=4.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\dotenv.net.4.0.2\lib\netstandard2.0\dotenv.net.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
@@ -70,20 +79,36 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\NullToVisibilityConverter.cs" />
+    <Compile Include="Helpers\SezioneToNavStyleConverter.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PrenotazioneDetailViewModel.cs" />
+    <Compile Include="ViewModels\PrenotazioneListViewModel.cs" />
     <Compile Include="ViewModels\RistoranteDetailViewModel.cs" />
     <Compile Include="ViewModels\RistoranteListViewModel.cs" />
+    <Compile Include="ViewModels\StatisticheViewModel.cs" />
     <Compile Include="ViewModels\UtenteDetailViewModel.cs" />
     <Compile Include="ViewModels\UtenteListViewModel.cs" />
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PrenotazioneDetailView.xaml.cs">
+      <DependentUpon>PrenotazioneDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PrenotazioneListView.xaml.cs">
+      <DependentUpon>PrenotazioneListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RistoranteDetailView.xaml.cs">
       <DependentUpon>RistoranteDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RistoranteListView.xaml.cs">
       <DependentUpon>RistoranteListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatisticheView.xaml.cs">
+      <DependentUpon>StatisticheView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UtenteDetailView.xaml.cs">
       <DependentUpon>UtenteDetailView.xaml</DependentUpon>
@@ -109,6 +134,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\LoginWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PrenotazioneDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PrenotazioneListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\RistoranteDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -116,6 +153,10 @@
     <Page Include="Views\RistoranteListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatisticheView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UtenteDetailView.xaml">
       <SubType>Designer</SubType>
@@ -144,6 +185,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include=".env">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -12,17 +12,20 @@ namespace UI.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
-        //manager per la logica di login
+
         private readonly UtenteManager _manager;
 
-        //evento login
-        public event EventHandler<Utente> LoginRiuscito;
+
+        public Utente UtenteAutenticato { get; private set; }
+
+        //Eventi per navigazione
+        public EventHandler<Utente> LoginRiuscito;
 
 
 
-        //proprieta' in binding
+        //Proprieta' in Bindings
         private string _userName;
-        public string UserName
+        public string Username
         {
             get => _userName;
             set { _userName = value; OnPropertyChanged(); }
@@ -49,19 +52,25 @@ namespace UI.ViewModels
             set { _isLoading = value; OnPropertyChanged(); }
         }
 
-        //comando login
+
+
+
+
+        // Comandi
         public ICommand LoginCommand { get; }
+
+
 
         public LoginViewModel(UtenteManager manager)
         {
             _manager = manager
                 ?? throw new ArgumentNullException(nameof(manager));
-
             LoginCommand = new RelayCommand(
                 execute: EseguiLogin,
-                canExecute: () => !string.IsNullOrWhiteSpace(UserName)
-                                  && !string.IsNullOrWhiteSpace(Password));
+                canExecute: () => !string.IsNullOrEmpty(Username)
+                                  && !string.IsNullOrEmpty(Password));
         }
+
 
         private void EseguiLogin()
         {
@@ -70,33 +79,26 @@ namespace UI.ViewModels
                 MessaggioErrore = null;
                 IsLoading = true;
 
-                var utente = _manager.Login(UserName, Password);
+                var utente = _manager.Login(Username, Password);
 
                 if (utente == null)
                 {
                     MessaggioErrore = "Username o password non corretti.";
                     return;
                 }
-
+                UtenteAutenticato = utente;
                 LoginRiuscito?.Invoke(this, utente);
             }
             catch (Exception ex)
             {
                 MessaggioErrore = ex.Message;
             }
+            //in questo modo isLoading torna sempre a false
             finally
             {
                 IsLoading = false;
             }
         }
-
-
-
-
-
-
-
-
 
 
 
