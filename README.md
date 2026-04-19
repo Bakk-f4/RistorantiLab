@@ -1,129 +1,129 @@
 # RistorantiLab
 
-Un'applicazione desktop WPF sviluppata come **laboratorio didattico** per apprendere i pattern architetturali **MVVM** (Model-View-ViewModel) e **N-Tier** in C# con .NET Framework.
+A WPF desktop application built as a **learning lab** to practice the **MVVM** (Model-View-ViewModel) and **N-Tier** architectural patterns in C# with .NET Framework.
 
 ---
 
-## Obiettivi didattici
+## Learning objectives
 
-- Comprendere la separazione delle responsabilità tramite l'architettura N-Tier
-- Applicare il pattern MVVM in un'applicazione WPF reale
-- Utilizzare `INotifyPropertyChanged` e i binding WPF per aggiornare la UI in modo reattivo
-- Implementare comandi (`ICommand` / `RelayCommand`) per gestire le azioni utente senza code-behind
-- Accedere a un database SQL Server tramite ADO.NET con parametri sicuri (niente SQL injection)
-- Gestire la navigazione tra viste tramite un `MainViewModel` centrale
+- Understand separation of concerns through N-Tier architecture
+- Apply the MVVM pattern in a real WPF application
+- Use `INotifyPropertyChanged` and WPF bindings to reactively update the UI
+- Implement commands (`ICommand` / `RelayCommand`) to handle user actions without code-behind
+- Access a SQL Server database via ADO.NET with parameterized queries (no SQL injection)
+- Manage view navigation through a central `MainViewModel`
 
 ---
 
-## Architettura N-Tier
+## N-Tier Architecture
 
-Il progetto è suddiviso in layer distinti, ciascuno con una responsabilità specifica:
+The project is split into distinct layers, each with a single responsibility:
 
 ```
 ┌─────────────────────────────────────────┐
-│   UI  (WPF – MVVM)                      │  Presentazione
+│   UI  (WPF – MVVM)                      │  Presentation Layer
 │   Views + ViewModels + Helpers          │
 ├─────────────────────────────────────────┤
-│   Manager                               │  Orchestrazione / Application Layer
+│   Manager                               │  Orchestration / Application Layer
 ├─────────────────────────────────────────┤
 │   Engine                                │  Business Logic Layer
 ├─────────────────────────────────────────┤
-│   IDal  (interfacce)                    │  Contratto Data Access
-│   DataDB (implementazione ADO.NET)      │  Data Access Layer
+│   IDal  (interfaces)                    │  Data Access Contract
+│   DataDB (ADO.NET implementation)       │  Data Access Layer
 ├─────────────────────────────────────────┤
-│   Entity                                │  Modelli di dominio (POCO)
+│   Entity                                │  Domain Models (POCO)
 │   CoreFramework                         │  Cross-cutting (BusinessException, …)
 └─────────────────────────────────────────┘
 ```
 
-### Progetti della soluzione
+### Solution projects
 
-| Progetto | Ruolo |
+| Project | Role |
 |---|---|
-| `Entity` | POCO: `Ristorante`, `Utente`, `Prenotazione`, `StatisticaGiornaliera` |
-| `CoreFramework` | Classi condivise: `BusinessException` |
-| `IDal` | Interfacce DAL (`IRistoranteDAL`, `IUtenteDAL`, `IPrenotazioneDAL`) |
-| `DataDB` | Implementazioni ADO.NET che eseguono query SQL Server |
-| `Engine` | Logica di business (`RistoranteEngine`, `UtenteEngine`, ecc.) |
-| `Manager` | Facciata verso la UI: coordina Engine e valida input di alto livello |
-| `UI` | Applicazione WPF con Views, ViewModels e Helpers |
+| `Entity` | POCOs: `Ristorante`, `Utente`, `Prenotazione`, `StatisticaGiornaliera` |
+| `CoreFramework` | Shared classes: `BusinessException` |
+| `IDal` | DAL interfaces (`IRistoranteDAL`, `IUtenteDAL`, `IPrenotazioneDAL`) |
+| `DataDB` | ADO.NET implementations that execute SQL Server queries |
+| `Engine` | Business logic (`RistoranteEngine`, `UtenteEngine`, etc.) |
+| `Manager` | Facade toward the UI: orchestrates Engine and validates high-level input |
+| `UI` | WPF application with Views, ViewModels and Helpers |
 
 ---
 
-## Pattern MVVM
+## MVVM Pattern
 
-La cartella `UI` segue rigorosamente il pattern MVVM:
+The `UI` folder strictly follows the MVVM pattern:
 
 ```
 UI/
-├── Views/          ← XAML puri, zero logica (code-behind minimale)
-├── ViewModels/     ← Stato e comandi della schermata, nessun riferimento a controlli WPF
+├── Views/          ← Pure XAML, zero logic (minimal code-behind)
+├── ViewModels/     ← Screen state and commands, no references to WPF controls
 └── Helpers/
-    ├── ViewModelBase.cs          ← Implementa INotifyPropertyChanged
-    ├── RelayCommand.cs           ← Implementa ICommand con delegate execute/canExecute
+    ├── ViewModelBase.cs          ← Implements INotifyPropertyChanged
+    ├── RelayCommand.cs           ← Implements ICommand with execute/canExecute delegates
     ├── NullToVisibilityConverter.cs
     └── SezioneToNavStyleConverter.cs
 ```
 
-### Elementi chiave
+### Key elements
 
-- **`ViewModelBase`** – classe astratta che implementa `INotifyPropertyChanged` tramite `[CallerMemberName]`, ereditata da tutti i ViewModel.
-- **`RelayCommand`** – implementazione generica di `ICommand` che accetta delegate `Action` e `Func<bool>`, evitando il code-behind nelle Views.
-- **`MainViewModel`** – ViewModel principale che gestisce navigazione tra sezioni (Ristoranti, Prenotazioni, Utenti, Statistiche), ruolo dell'utente loggato (admin vs. normale) e logout.
-- **Navigazione via eventi** – i ViewModel figli espongono eventi (`RichiestaNuovo`, `RichiestaModifica`, `RichiestaTornaLista`) che `MainViewModel` intercetta per cambiare `CurrentView`, mantenendo i ViewModel disaccoppiati.
-
----
-
-## Funzionalità dell'applicazione
-
-- **Login / Logout** con verifica credenziali e gestione sessione
-- **Gestione Ristoranti** – lista con filtri (città, tipologia, prezzo), inserimento, modifica, eliminazione
-- **Gestione Prenotazioni** – lista per ristorante e data, nuova prenotazione, modifica, cancellazione
-- **Gestione Utenti** *(solo amministratori)* – lista, inserimento, modifica utenti
-- **Statistiche** – statistiche giornaliere per ristorante
+- **`ViewModelBase`** – abstract class that implements `INotifyPropertyChanged` via `[CallerMemberName]`, inherited by all ViewModels.
+- **`RelayCommand`** – generic `ICommand` implementation that accepts `Action` and `Func<bool>` delegates, keeping code-behind out of the Views.
+- **`MainViewModel`** – root ViewModel that manages navigation between sections (Restaurants, Bookings, Users, Statistics), the logged-in user's role (admin vs. regular), and logout.
+- **Event-based navigation** – child ViewModels expose events (`RichiestaNuovo`, `RichiestaModifica`, `RichiestaTornaLista`) that `MainViewModel` intercepts to swap `CurrentView`, keeping ViewModels fully decoupled from each other.
 
 ---
 
-## Prerequisiti
+## Application features
 
-- Visual Studio 2022 (o successivo) con workload **.NET desktop development**
-- SQL Server (anche Express) con un'istanza raggiungibile
-- .NET Framework 4.x (versione indicata in ogni `.csproj`)
+- **Login / Logout** with credential verification and session management
+- **Restaurant management** – list with filters (city, type, price), create, edit, delete
+- **Booking management** – list by restaurant and date, new booking, edit, cancel
+- **User management** *(administrators only)* – list, create, edit users
+- **Statistics** – daily statistics per restaurant
 
 ---
 
-## Configurazione
+## Prerequisites
 
-La stringa di connessione al database è letta dal file `UI/.env`:
+- Visual Studio 2022 (or later) with the **.NET desktop development** workload
+- SQL Server (Express is fine) with a reachable instance
+- .NET Framework 4.x (exact version specified in each `.csproj`)
+
+---
+
+## Configuration
+
+The database connection string is read from `UI/.env`:
 
 ```
 RISTORANTILAB_CONN=Server=<server>\SQLEXPRESS;Database=RistorantiLab;Integrated Security=True;
 ```
 
-Modifica questo file con i dati della tua istanza SQL Server prima di avviare l'applicazione.
+Update this file with your SQL Server instance details before running the application.
 
-> **Nota:** il file `.env` non deve essere committato con credenziali reali. Assicurati che sia incluso nel `.gitignore` oppure usa Windows Integrated Security come nell'esempio.
-
----
-
-## Avvio
-
-1. Clona il repository
-2. Apri `RistorantiLab.slnx` in Visual Studio
-3. Aggiorna `UI/.env` con la tua stringa di connessione
-4. Crea il database su SQL Server (script DDL non inclusi – crea le tabelle `AnagraficaRistoranti`, `Utenti`, `Prenotazioni` in base alle entità del progetto)
-5. Imposta `UI` come progetto di avvio e premi **F5**
+> **Note:** the `.env` file should not be committed with real credentials. Make sure it is listed in `.gitignore` or use Windows Integrated Security as shown in the example above.
 
 ---
 
-## Struttura del codice – riferimenti rapidi
+## Getting started
 
-| Cosa cercare | Dove guardare |
+1. Clone the repository
+2. Open `RistorantiLab.slnx` in Visual Studio
+3. Update `UI/.env` with your connection string
+4. Create the database on SQL Server (DDL scripts not included – create tables `AnagraficaRistoranti`, `Utenti`, `Prenotazioni` based on the project entities)
+5. Set `UI` as the startup project and press **F5**
+
+---
+
+## Code structure – quick reference
+
+| Looking for | Where to look |
 |---|---|
-| Binding e DataTemplate | `UI/Views/*.xaml` |
-| Stato e comandi di una schermata | `UI/ViewModels/*ViewModel.cs` |
-| Navigazione tra schermate | `UI/ViewModels/MainViewModel.cs` |
-| Validazione / regole di business | `Engine/*Engine.cs` |
-| Query SQL (ADO.NET) | `DataDB/*DAL.cs` |
-| Contratto del DAL | `IDal/I*DAL.cs` |
-| Modelli di dominio | `Entity/*.cs` |
+| Bindings and DataTemplates | `UI/Views/*.xaml` |
+| Screen state and commands | `UI/ViewModels/*ViewModel.cs` |
+| Navigation between screens | `UI/ViewModels/MainViewModel.cs` |
+| Validation / business rules | `Engine/*Engine.cs` |
+| SQL queries (ADO.NET) | `DataDB/*DAL.cs` |
+| DAL contract | `IDal/I*DAL.cs` |
+| Domain models | `Entity/*.cs` |
